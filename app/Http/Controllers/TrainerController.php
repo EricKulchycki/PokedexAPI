@@ -67,17 +67,20 @@ class TrainerController extends Controller
         $poke_names = $trainer->captured;
         $poke_array = explode(',', $poke_names);
 
-        $ret_array = array(count($poke_array));
-        $inc = 0;
-
+        $collection = collect([]);
         foreach($poke_array as $names) {
 
-            $pokemon = Pokedex::findOrFail($names);
-            $ret_array[$inc] = new PokemonResource($pokemon);
-            $inc++;
+            $pokemon = Pokedex::where('name', $names);
+
+            $collection = $collection->concat($pokemon);
         }
 
-        return $ret_array;
+
+
+
+
+
+        return new PokemonResource($collection);
 
     }
 
