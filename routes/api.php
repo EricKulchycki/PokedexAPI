@@ -23,4 +23,6 @@ Route::get('pokemon', 'PokedexController@index');
 //Get single Pokemon
 Route::get('pokemon/{id}', 'PokedexController@show');
 
+Route::post('register', 'TrainerController@store');
+
 
