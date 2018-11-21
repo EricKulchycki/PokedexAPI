@@ -15,7 +15,6 @@ class CreatePokedexTable extends Migration
     {
         Schema::create('pokedex', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->string('name');
             $table->string('types');
             $table->integer('height');

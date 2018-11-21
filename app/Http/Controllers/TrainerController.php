@@ -46,10 +46,6 @@ class TrainerController extends Controller
         if($trainer->save()) {
             return new TrainerResource($trainer);
         }
-
-
-
-
     }
 
     /**
