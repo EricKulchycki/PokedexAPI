@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrainerTable extends Migration
+class CreateTrainersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateTrainerTable extends Migration
         Schema::create('trainers', function (Blueprint $table) {
             $table->string('email');
             $table->string('password');
-            $table->timestamps();
+            $table->string('captured');
         });
     }
 

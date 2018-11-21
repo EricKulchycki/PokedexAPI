@@ -37,7 +37,7 @@ class TrainerController extends Controller
      */
     public function store(Request $request)
     {
-        // POST
+        // PUT
         $trainer = $request->isMethod('put') ? Pokedex::findOrFail ($request->email) : new Trainers;
 
         $trainer->email = $request->input('email');
@@ -79,7 +79,11 @@ class TrainerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //PUT pokemon in trainer table
+        //Adding a pokemon that was captured to the trainer
+        $trainer = Trainers::findOrFail($id);
+
+
     }
 
     /**
