@@ -42,6 +42,7 @@ class TrainerController extends Controller
 
         $trainer->email = $request->input('email');
         $trainer->password = $request->input('password');
+        $trainer->captured = "";
 
         if($trainer->save()) {
             return new TrainerResource($trainer);
@@ -74,14 +75,30 @@ class TrainerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $email)
     {
         //PUT pokemon in trainer table
         //Adding a pokemon that was captured to the trainer
-        $trainer = Trainers::findOrFail($id);
+        //request will have two keys, email & name (name of pokemon)
+
+        $trainer = Trainers::findOrFail($email);
+
+        //Check to see if there are any captured pokemon
+        if($trainer->captured == "") {
+            $trainer->captured = $request->name;
+        }
+        else {
+            $trainer->captured = $trainer->captured . ',' . $request->name;
+        }
+
+        //Save the trainer
+        //If successful pass trainer to resource to be printed
+        if($trainer->save()) {
+            return new TrainerResource($trainer);
+        }
+
 
 
     }

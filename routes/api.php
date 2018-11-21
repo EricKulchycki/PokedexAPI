@@ -27,4 +27,4 @@ Route::get('pokemon/{id}', 'PokedexController@show');
 Route::post('register', 'TrainerController@store');
 
 //PUT
-Route::put('capture', 'TrainerController@update');
+Route::put('capture/{email}', 'TrainerController@update');
