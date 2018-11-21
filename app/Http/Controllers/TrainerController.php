@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Trainers;
 use App\Http\Resources\Trainer as TrainerResource;
+use App\Pokedex;
+use App\Http\Resources\Pokedex as PokemonResource;
 
 class TrainerController extends Controller
 {
@@ -16,7 +18,7 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -38,7 +40,8 @@ class TrainerController extends Controller
     public function store(Request $request)
     {
         // PUT
-        $trainer = $request->isMethod('put') ? Pokedex::findOrFail ($request->email) : new Trainers;
+        //If trainer already exists update info
+        $trainer = $request->isMethod('put') ? Trainers::findOrFail ($request->email) : new Trainers;
 
         $trainer->email = $request->input('email');
         $trainer->password = $request->input('password');
@@ -55,9 +58,27 @@ class TrainerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($email)
     {
-        //
+        //GET
+        //Return all information on captured pokemon given a trainer email
+        $trainer = Trainers::findOrFail($email);
+
+        $poke_names = $trainer->captured;
+        $poke_array = explode(',', $poke_names);
+
+
+        foreach($poke_array as $names) {
+
+            $pokemon = Pokedex::findOrFail($names);
+            $this->printPoke($pokemon);
+
+        }
+
+    }
+
+    public function printPoke($pokemon) {
+        return new PokemonResource($pokemon);
     }
 
     /**

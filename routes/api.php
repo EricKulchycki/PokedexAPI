@@ -28,3 +28,5 @@ Route::post('register', 'TrainerController@store');
 
 //PUT
 Route::put('capture/{email}', 'TrainerController@update');
+
+Route::get('trainer_pokemon/{email}', 'TrainerController@show');
