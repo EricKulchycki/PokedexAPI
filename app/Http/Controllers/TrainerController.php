@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Pokedex;
+use App\Trainers;
 use App\Http\Resources\Trainer as TrainerResource;
 
 class TrainerController extends Controller
@@ -38,7 +38,16 @@ class TrainerController extends Controller
     public function store(Request $request)
     {
         // POST
-        $trainer = $request->isMethod('put') ? Pokedex::findOrFail ($request->email) : new Trainer;
+        $trainer = $request->isMethod('put') ? Pokedex::findOrFail ($request->email) : new Trainers;
+
+        $trainer->email = $request->input('email');
+        $trainer->password = $request->input('password');
+
+        if($trainer->save()) {
+            return new TrainerResource($trainer);
+        }
+
+
 
 
     }
