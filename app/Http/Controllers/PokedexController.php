@@ -42,7 +42,10 @@ class PokedexController extends Controller
      */
     public function show($id)
     {
-        //
+        // GET single pokemon based on ID
+        $pokemon = Pokedex::findOrFail($id);
+
+        return new PokemonResource($pokemon);
     }
 
     /**
