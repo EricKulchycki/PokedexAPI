@@ -67,18 +67,22 @@ class TrainerController extends Controller
         $poke_names = $trainer->captured;
         $poke_array = explode(',', $poke_names);
 
+        $ret_array = array(count($poke_array));
+        $inc = 0;
 
         foreach($poke_array as $names) {
 
             $pokemon = Pokedex::findOrFail($names);
-            $this->printPoke($pokemon);
-
+            $ret_array[$inc] = new PokemonResource($pokemon);
+            $inc++;
         }
+
+        return $ret_array;
 
     }
 
     public function printPoke($pokemon) {
-        return new PokemonResource($pokemon);
+        return $pokemon->toArray();
     }
 
     /**
