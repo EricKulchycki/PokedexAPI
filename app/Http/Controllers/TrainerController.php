@@ -11,25 +11,6 @@ use App\Http\Resources\Pokedex as PokemonResource;
 
 class TrainerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -70,16 +51,12 @@ class TrainerController extends Controller
         $collection = collect([]);
         foreach($poke_array as $names) {
 
-            $pokemon = Pokedex::where('name', $names);
+            $pokemon = Pokedex::where('name', $names)->get();
+
 
             $collection = $collection->concat($pokemon);
         }
-
-
-
-
-
-
+        
         return new PokemonResource($collection);
 
     }
@@ -88,23 +65,7 @@ class TrainerController extends Controller
         return $pokemon->toArray();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $email)
     {
         //PUT pokemon in trainer table
@@ -129,16 +90,5 @@ class TrainerController extends Controller
 
 
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
