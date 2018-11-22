@@ -46,17 +46,17 @@ class TrainerController extends Controller
         $trainer = Trainers::findOrFail($email);
 
         $poke_names = $trainer->captured;
-        $poke_array = explode(',', $poke_names);
+        $poke_array = array_map('trim', explode(',', $poke_names));
+
 
         $collection = collect([]);
-        foreach($poke_array as $names) {
+        for($x = 0; $x < count($poke_array); $x++) {
 
-            $pokemon = Pokedex::where('name', $names)->get();
-
+            $pokemon = Pokedex::where('name', '=', $poke_array[$x])->get();
 
             $collection = $collection->concat($pokemon);
         }
-        
+
         return new PokemonResource($collection);
 
     }
