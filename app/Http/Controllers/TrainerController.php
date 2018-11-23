@@ -25,7 +25,7 @@ class TrainerController extends Controller
         $trainer = $request->isMethod('put') ? Trainers::findOrFail ($request->email) : new Trainers;
 
         $trainer->email = $request->input('email');
-        $trainer->password = $request->input('password');
+        $trainer->password = bcrypt($request->input('password'));
         $trainer->captured = "";
 
         if($trainer->save()) {
