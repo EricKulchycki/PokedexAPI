@@ -1,0 +1,186 @@
+openapi: 3.0.2
+# Added by API Auto Mocking Plugin
+info:
+  description: |
+    # Description
+    This API is used for the retrieval of information about pokmeon and their trainers. This includes information about all pokemon in the pokedex, as well as information about individual Pokemon. This API also allows you to register trainers and update the pokemon that they have caught.
+    
+    ### Endpoints
+    - ```GET /pokemon```
+    - ```GET /pokemon/{id}```
+    - ```PUT /capture/{email}```
+    - ```GET /trainer_pokemon/{email}```
+    - ```POST /register```
+  version: "1.0.0"
+  title: Pokedex API
+paths:
+  /pokemon:
+    get:
+      summary: gets all pokemon
+      description: |
+        Returns JSON object containing all Pokemon in the Pokedex.
+      responses:
+        '200':
+          description: return of all pokemon successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/pokemon'
+  /pokemon/{id}:
+    get:
+      summary: gets a specified pokemon
+      description: |
+        Returns JSON object containing a Pokemon in the Pokedex which is specified by their id.
+      parameters:
+        - in: path
+          description: id of the pokemon to be returned
+          name: id
+          required: true
+          schema:
+            type: integer
+          
+      responses:
+        '200':
+          description: return of single pokemon successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/pokemon'
+  /register:
+    post:
+      summary: registers a trainer
+      description: |
+        This will register a trainer provided they give an email and encrypted password in the message header.
+      responses:
+        '200':
+          description: successfully regsitered a trainer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/trainer'
+  /capture/{email}:
+    put:
+      summary: marks a pokemon as captured by a trainer
+      description: |
+        This will update the captured pokemon with the specified pokemon
+      parameters:
+        - in: path
+          name: email
+          schema:
+            type: string
+          required: true
+          description: string value of email associated with a trainer
+        - in: header
+          name: pokemon
+          description: pokemon that you want to mark as captured
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            update of the captured field of the trainer successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/trainer'
+  /trainer_pokemon/{email}:
+    get:
+      summary: returns all the pokemon that a specified trainer has captured
+      description: |
+        This will return all the pokemon that the trainer specified by email has captured
+      parameters:
+        - in: path
+          name: email
+          schema:
+            type: string
+          required: true
+          description: String value of country to get states from
+      responses:
+        '200':
+          description: |
+            update of the captured field of the trainer successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/pokemon'
+          
+components:
+  schemas:
+    pokemon:
+      type: object
+      required:
+        - id
+        - name
+        - types
+        - height
+        - weight
+        - abilities
+        - egg_groups
+        - stats
+        - genus
+        - description
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Bulbasaur"
+        types:
+          type: array
+          items:
+            type: string
+          example: ["poison", "grass"]
+        height:
+          type: integer
+          example: 12
+        weight:
+          type: integer
+          example: 123
+        abilities:
+          type: array
+          items:
+            type: string
+          example: ["overgrow", "blaze"]
+        egg_groups:
+          type: array
+          items:
+            type: string
+          example: ["bug"]
+        stats:
+          type: array
+          items:
+            type: string
+          example: ["hp:50", "speed:30"]
+        genus:
+          type: string
+          example: "Beak Pokemon"
+        description:
+          type: string
+          example: "Bulbasaur can be seen napping in bright sunlight."
+    trainer:
+      type: object
+      required:
+        - email
+        - password
+        - captured
+      properties:
+        email:
+          type: string
+          example: "johndoe@gmail.com"
+        password:
+          type: string
+          example: "hW3sG9sD30F32%O2suj4*"
+        captured:
+          type: string
+          example: "bulbasaur,charizard,ivysaur"
